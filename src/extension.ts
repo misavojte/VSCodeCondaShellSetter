@@ -11,6 +11,28 @@ export async function activate(context: vscode.ExtensionContext) {
 		outputChannel = vscode.window.createOutputChannel('Conda Terminal Setup');
 		outputChannel.show();
 		outputChannel.appendLine('Activating Conda Terminal Setup Extension...');
+
+		const closeAllTerminalsExceptLast = () => {
+			const terminals = vscode.window.terminals;
+			if (terminals.length <= 1) return; // Nothing to do if 0 or 1 terminal
+			
+			// Close all terminals except the last one
+			for (let i = 0; i < terminals.length - 1; i++) {
+				terminals[i].dispose();
+			}
+		};
+
+		// Add this helper function to handle the terminal cleanup prompt
+		const promptToCleanupTerminals = async () => {
+			const action = await vscode.window.showInformationMessage(
+				'🧹 Would you like to close all other terminals?',
+				'Yes, close others',
+				'No, keep all'
+			);
+			if (action === 'Yes, close others') {
+				closeAllTerminalsExceptLast();
+			}
+		};
 		
 		// Function to validate that the provided path is a valid Conda installation.
 		const isValidCondaPath = (condaDir: string): boolean => {
@@ -122,11 +144,13 @@ export async function activate(context: vscode.ExtensionContext) {
 							if (success) {
 								vscode.window.showInformationMessage('✅ Conda initialization complete! Opening new terminal...');
 								vscode.window.createTerminal('Conda PowerShell').show();
+								await promptToCleanupTerminals();
 							}
 						}
 					} else {
 						vscode.window.showInformationMessage('✅ Opening Conda PowerShell terminal...');
 						vscode.window.createTerminal('Conda PowerShell').show();
+						await promptToCleanupTerminals();
 					}
 				} else {
 					const action = await vscode.window.showInformationMessage(
@@ -140,6 +164,7 @@ export async function activate(context: vscode.ExtensionContext) {
 						if (success) {
 							vscode.window.showInformationMessage('✅ Conda initialization complete! Opening new terminal...');
 							vscode.window.createTerminal('Conda PowerShell').show();
+							await promptToCleanupTerminals();
 						}
 					}
 				}
@@ -186,6 +211,7 @@ export async function activate(context: vscode.ExtensionContext) {
 						'🐍 Conda initialization successful! Opening a new terminal...'
 					);
 					vscode.window.createTerminal('Conda PowerShell').show();
+					await promptToCleanupTerminals();
 				} else {
 					vscode.window.showErrorMessage('⚠️ Failed to initialize Conda. Please check the logs for more information.');
 				}
@@ -201,6 +227,15 @@ export async function activate(context: vscode.ExtensionContext) {
 				outputChannel.appendLine('Executing reset command...');
 				vscode.window.showInformationMessage('🔄 Resetting Conda Settings...');
 				
+				// Check if PowerShell profile exists
+				const profilePath = path.join(process.env.USERPROFILE || '', 'Documents', 'WindowsPowerShell', 'profile.ps1');
+				if (!fs.existsSync(profilePath)) {
+					outputChannel.appendLine('⚠️ PowerShell profile not found. Nothing to reset.');
+					vscode.window.showInformationMessage('ℹ️ No PowerShell profile found. Nothing to reset.');
+					await context.workspaceState.update('condaPath', undefined);
+					return;
+				}
+
 				const condaPath = context.workspaceState.get<string>('condaPath');
 				if (condaPath && isValidCondaPath(condaPath)) {
 					try {
@@ -234,14 +269,14 @@ export async function activate(context: vscode.ExtensionContext) {
 							'🔄 Conda has been removed from your PowerShell profile. Opening a new terminal...'
 						);
 						vscode.window.createTerminal('PowerShell').show();
+						await promptToCleanupTerminals();
 					} catch (error) {
 						console.error('Failed to de-initialize conda:', error);
 						vscode.window.showErrorMessage('⚠️ Failed to remove Conda from PowerShell profile. Please check the logs for more information.');
 					}
 				} else {
 					await context.workspaceState.update('condaPath', undefined);
-					vscode.window.showInformationMessage('🔄 Conda configuration reset. Opening a new terminal...');
-					vscode.window.createTerminal('PowerShell').show();
+					vscode.window.showInformationMessage('🔄 Conda configuration reset.');
 				}
 			} catch (error) {
 				console.error('Error in resetSettings command:', error);

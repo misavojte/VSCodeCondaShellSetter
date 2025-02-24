@@ -2,7 +2,7 @@
     "name": "windows-conda-powershell-setup",
     "displayName": "Windows Conda PowerShell Setup",
     "description": "Automatically configures Conda in Windows PowerShell terminals for VS Code. Helps students to quickly initialize Conda in their PowerShell terminals for data science tasks.",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "icon": "icon.png",
     "publisher": "vojtechovska",
     "author": {

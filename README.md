@@ -42,3 +42,6 @@ Created for my students ❤️ at the Department of Geoinformatics, Palacký Uni
 
 ### 0.0.2
 - Automatically offers an option after the extension is activated
+
+### 0.0.3
+- Closes all other terminals after Conda is initialized (prompt to close is shown)
