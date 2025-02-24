@@ -23,15 +23,7 @@
           "title": "Reset Conda Terminal Settings",
           "category": "Conda Setup"
         }
-      ],
-      "terminal": {
-        "profiles": [
-          {
-            "id": "conda-env",
-            "title": "Conda Environment"
-          }
-        ]
-      }
+      ]
     },
     "scripts": {
       "vscode:prepublish": "tsc -p ./",
