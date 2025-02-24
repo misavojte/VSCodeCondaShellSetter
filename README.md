@@ -39,3 +39,6 @@ Created for my students ❤️ at the Department of Geoinformatics, Palacký Uni
 
 ### 0.0.1
 - Initial release with Windows PowerShell Conda configuration
+
+### 0.0.2
+- Automatically offers an option after the extension is activated
