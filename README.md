@@ -2,6 +2,8 @@
 
 A VS Code extension that automatically configures Conda in Windows PowerShell terminals.
 
+Created for my students ❤️ at the Department of Geoinformatics, Palacký University in Olomouc, Czech Republic. 
+
 ## Features
 
 - Automatically initializes Conda in Windows PowerShell terminals
