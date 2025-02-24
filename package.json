@@ -4,7 +4,7 @@
     "description": "Automatically configures Conda in Windows PowerShell terminals for VS Code.",
     "version": "0.0.1",
     "icon": "icon.png",
-    "publisher": "your-publisher-name",
+    "publisher": "vojtechovska",
     "engines": {
       "vscode": ">=1.70.0"
     },
