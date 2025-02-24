@@ -10,9 +10,6 @@
     "categories": [
       "Other"
     ],
-    "activationEvents": [
-      "onCommand:condaTerminalSetup.applySettings"
-    ],
     "main": "./dist/extension.js",
     "contributes": {
       "commands": [
@@ -20,8 +17,21 @@
           "command": "condaTerminalSetup.applySettings",
           "title": "Apply Conda Terminal Settings",
           "category": "Conda Setup"
+        },
+        {
+          "command": "condaTerminalSetup.resetSettings",
+          "title": "Reset Conda Terminal Settings",
+          "category": "Conda Setup"
         }
-      ]
+      ],
+      "terminal": {
+        "profiles": [
+          {
+            "id": "conda-env",
+            "title": "Conda Environment"
+          }
+        ]
+      }
     },
     "scripts": {
       "vscode:prepublish": "tsc -p ./",
