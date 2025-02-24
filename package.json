@@ -1,8 +1,9 @@
 {
-    "name": "conda-terminal-setup",
-    "displayName": "Conda Terminal Setup",
-    "description": "Automatically adds Conda to the VS Code PowerShell terminal with a user-prompted installation path.",
+    "name": "windows-conda-powershell-setup",
+    "displayName": "Windows Conda PowerShell Setup",
+    "description": "Automatically configures Conda in Windows PowerShell terminals for VS Code.",
     "version": "0.0.1",
+    "icon": "icon.png",
     "publisher": "your-publisher-name",
     "engines": {
       "vscode": ">=1.70.0"
@@ -15,12 +16,12 @@
       "commands": [
         {
           "command": "condaTerminalSetup.applySettings",
-          "title": "Apply Conda Terminal Settings",
+          "title": "Initialize Conda in PowerShell",
           "category": "Conda Setup"
         },
         {
           "command": "condaTerminalSetup.resetSettings",
-          "title": "Reset Conda Terminal Settings",
+          "title": "Remove Conda from PowerShell",
           "category": "Conda Setup"
         }
       ]
@@ -45,9 +46,9 @@
     "license": "MIT",
     "keywords": [
       "conda",
-      "terminal",
+      "windows",
       "powershell",
-      "vscode-extension",
-      "environment"
+      "miniconda",
+      "vscode-extension"
     ]
   }
